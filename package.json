@@ -1,8 +1,8 @@
 {
   "name": "pizza",
-  "displayName": "pizza",
+  "displayName": "Pizza",
   "description": "Order pizza without ever leaving VSCode",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "WebDevSimplified",
   "repository": {
 		"url": "https://github.com/WebDevSimplified/vscode-extension-pizza"
@@ -47,7 +47,7 @@
     "commands": [
       {
         "command": "pizza.orderPizza",
-        "title": "Order Pizza"
+        "title": "EMERGENCY PIZZA"
       }
     ]
   },

@@ -7,7 +7,7 @@ export function activate(context: ExtensionContext) {
     if (state?.helper?.order == null) return
     try {
       await state.helper.order.validate()
-      // await state.helper.order.place()
+      await state.helper.order.place()
       window.showInformationMessage("Order Placed!")
     } catch (e) {
       console.log(e)

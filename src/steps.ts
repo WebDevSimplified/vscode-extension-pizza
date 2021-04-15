@@ -128,7 +128,7 @@ async function getProduct(
   if (store.StoreID == null) throw InputFlowAction.back("No nearby open stores")
   const menu = await new dominos.Menu(store.StoreID)
   const products = menu.menu.categories.food.pizza.subCategories.specialty.products
-    .map((code: String) => {
+    .map((code: string) => {
       const product = menu.menu.products[code]
       if (product == null) return
       return {
