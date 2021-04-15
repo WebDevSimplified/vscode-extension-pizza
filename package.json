@@ -3,6 +3,11 @@
   "displayName": "pizza",
   "description": "Order pizza without ever leaving VSCode",
   "version": "0.0.1",
+  "publisher": "WebDevSimplified",
+  "repository": {
+		"url": "https://github.com/WebDevSimplified/vscode-extension-pizza"
+	},
+  "icon": "logo.png",
   "engines": {
     "vscode": "^1.46.0"
   },

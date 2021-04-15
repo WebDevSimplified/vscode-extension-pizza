@@ -47,10 +47,6 @@ export default function executeSteps(): Promise<State> {
     steps.push(getPhoneNumber)
   }
 
-  // steps.push(getCreditCardNumber)
-  // steps.push(getCreditCardExpiration)
-  // steps.push(getCreditCardSecurityCode)
-  // steps.push(getCreditCardPostalCode)
   steps.push(approve)
   const state: DeepPartial<State> = { customer: customer, creditCard: {} }
   return collectInputs(steps as [InputStep], state)
@@ -108,70 +104,17 @@ async function approve(
   state: DeepPartial<State>
 ): Promise<DeepPartial<State>> {
   const order = new dominos.Order(new dominos.Customer(state.customer))
-  order.addItem(
-    new dominos.Item({
-      code: state.itemCode,
-      // options: (state as State).helper?.product.defaultToppings
-      //   .split(",")
-      //   .reduce((options: any, topping: string) => {
-      //     const [key, amount] = topping.split("=")
-      //     return { ...options, [key]: { "1/1": amount } }
-      //   }, {}),
-    })
-  )
+  order.addItem(new dominos.Item({ code: state.itemCode }))
   order.storeID = state.storeId
   await order.price()
   const price = order.amountsBreakdown.customer
 
   await input.showInputBox(
-    `Your order will cost $${price} and take around ${order.estimatedWaitMinutes} minutes.`
+    `Your order will cost $${price} and take around ${order.estimatedWaitMinutes} minutes. You must pay in cash when it arrives.`
   )
   order.payments.push({ amount: price, type: "Cash" })
   return { ...state, helper: { ...state.helper, order } }
 }
-
-// async function getCreditCardNumber(
-//   input: MultiStepInput,
-//   state: DeepPartial<State>
-// ): Promise<DeepPartial<State>> {
-//   const answer = await input.showInputBox(`Enter your credit card number.`)
-//   if (answer === "") throw InputFlowAction.resume("Cannot be blank")
-//   return {
-//     ...state,
-//     creditCard: { ...state.creditCard, number: answer },
-//   }
-// }
-
-// async function getCreditCardExpiration(
-//   input: MultiStepInput,
-//   state: DeepPartial<State>
-// ): Promise<DeepPartial<State>> {
-//   const answer = await input.showInputBox(
-//     "Enter Your Credit Card Expiration. EX: 03/24"
-//   )
-//   if (answer === "") throw InputFlowAction.resume("Cannot be blank")
-//   return { ...state, creditCard: { ...state.creditCard, expiration: answer } }
-// }
-
-// async function getCreditCardSecurityCode(
-//   input: MultiStepInput,
-//   state: DeepPartial<State>
-// ): Promise<DeepPartial<State>> {
-//   const answer = await input.showInputBox(
-//     "Enter Your Credit Card Security Code"
-//   )
-//   if (answer === "") throw InputFlowAction.resume("Cannot be blank")
-//   return { ...state, creditCard: { ...state.creditCard, securityCode: answer } }
-// }
-
-// async function getCreditCardPostalCode(
-//   input: MultiStepInput,
-//   state: DeepPartial<State>
-// ): Promise<DeepPartial<State>> {
-//   const answer = await input.showInputBox("Enter Your Zip Code")
-//   if (answer === "") throw InputFlowAction.resume("Cannot be blank")
-//   return { ...state, creditCard: { ...state.creditCard, postalCode: answer } }
-// }
 
 interface ProductQPItem extends QuickPickItem {
   product: any

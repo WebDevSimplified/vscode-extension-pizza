@@ -2,7 +2,6 @@ import {
   QuickPickItem,
   window,
   Disposable,
-  QuickInputButton,
   QuickInput,
   QuickInputButtons,
 } from "vscode"
