@@ -112,8 +112,41 @@ async function approve(
   await input.showInputBox(
     `Your order will cost $${price} and take around ${order.estimatedWaitMinutes} minutes. You must pay in cash when it arrives.`
   )
-  order.payments.push({ amount: price, type: "Cash" })
+  //   Amount: 19.62
+  // CardType: ""
+  // Expiration: ""
+  // Number: ""
+  // OTP: ""
+  // PaymentMethodID: ""
+  // PostalCode: ""
+  // ProviderID: ""
+  // SecurityCode: ""
+  // Type: "Cash"
+  // gpmPaymentType: ""
+  order.payments.push(new CashPayment(price))
   return { ...state, helper: { ...state.helper, order } }
+}
+
+class CashPayment {
+  Type: string
+  Amount: number
+  constructor(amount: number) {
+    this.Amount = amount
+    this.Type = "Cash"
+    // this.CardType = ""
+    // this.Expiration = ""
+    // this.Number = ""
+    // this.OTP = ""
+    // this.PaymentMethodID = ""
+    // this.PostalCode = ""
+    // this.ProviderID = ""
+    // this.SecurityCode = ""
+    // this.gpmPaymentType = ""
+  }
+
+  get formatted() {
+    return JSON.parse(JSON.stringify(this))
+  }
 }
 
 interface ProductQPItem extends QuickPickItem {
